@@ -6,7 +6,7 @@ import React from "react";
 const Page = () => {
     return (
         <View>
-            <Text>Papge</Text>
+            <Text>inbox</Text>
         </View>
     );
 };
