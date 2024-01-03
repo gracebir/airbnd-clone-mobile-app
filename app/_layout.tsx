@@ -1,8 +1,10 @@
 /** @format */
 
+import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -43,9 +45,52 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+    const router = useRouter();
     return (
         <Stack>
             <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+            <Stack.Screen
+                name='(modals)/login'
+                options={{
+                    presentation: "modal",
+                    title: "Log in or sign up",
+                    headerTitleStyle: {
+                        fontFamily: "mon-sb",
+                    },
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            onPress={() => router.back()}
+                            style={{
+                                marginRight: 30,
+                            }}
+                        >
+                            <Ionicons name='close-outline' size={28} />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+            <Stack.Screen name='listing/[id]' options={{ headerTitle: "" }} />
+            <Stack.Screen
+                name='(modals)/booking'
+                options={{
+                    presentation: "transparentModal",
+                    animation: "fade",
+                    headerLeft: () => (
+                        <TouchableOpacity
+                            onPress={() => router.back()}
+                            style={{
+                                marginRight: 30,
+                            }}
+                        >
+                            <Ionicons name='close-outline' size={28} />
+                        </TouchableOpacity>
+                    ),
+                    title: "Booking",
+                    headerTitleStyle: {
+                        fontFamily: "mon-sb",
+                    },
+                }}
+            />
         </Stack>
     );
 }
