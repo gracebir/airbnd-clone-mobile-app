@@ -7,9 +7,10 @@ import {
     Dimensions,
     Image,
     TouchableOpacity,
+    Share,
 } from "react-native";
-import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import React, { useLayoutEffect } from "react";
+import { useNavigation, useLocalSearchParams } from "expo-router";
 import listingsData from "@/assets/data/airbnb-listings.json";
 import Animated, {
     SlideInDown,
@@ -30,6 +31,56 @@ const Page = () => {
     const listing = (listingsData as any[]).find((item) => item.id === id);
     const scrollRef = useAnimatedRef<Animated.ScrollView>();
     const scrollOffset = useScrollViewOffset(scrollRef);
+
+    const shareListing = async () => {
+        try {
+            await Share.share({
+                title: listing.name,
+                url: listing.listing_url,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const navigation = useNavigation();
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerBackground: () => (
+                <Animated.View style={[styles.header, headerAnimatedStyle]} />
+            ),
+            headerRight: () => (
+                <View style={styles.bar}>
+                    <TouchableOpacity
+                        onPress={shareListing}
+                        style={styles.roundButton}
+                    >
+                        <Ionicons
+                            name='share-outline'
+                            size={22}
+                            color={"#000"}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.roundButton}>
+                        <Ionicons
+                            name='heart-outline'
+                            size={22}
+                            color={"#000"}
+                        />
+                    </TouchableOpacity>
+                </View>
+            ),
+        });
+    }, []);
+
+    const headerAnimatedStyle = useAnimatedStyle(() => {
+        return {
+            opacity: interpolate(
+                scrollOffset.value,
+                [0, IMG_HEIGHT / 2],
+                [0, 1]
+            ),
+        };
+    });
 
     const imageAnimatedStyle = useAnimatedStyle(() => {
         return {
@@ -220,4 +271,5 @@ const styles = StyleSheet.create({
         fontFamily: "mon",
     },
 });
+
 export default Page;
