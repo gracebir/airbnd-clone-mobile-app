@@ -6,6 +6,8 @@ import { Stack } from "expo-router";
 import ExporeHeader from "@/components/ExporeHeader";
 import Listings from "@/components/Listings";
 import listings from "@/assets/data/airbnb-listings.json";
+import listingMaps from "@/assets/data/airbnb-listings.geo.json";
+import ListingsMap from "@/components/ListingsMap";
 const Page = () => {
     const [category, setCategory] = useState("Tiny homes");
     const onDataChanged = (cat: string) => {
@@ -23,7 +25,8 @@ const Page = () => {
                     ),
                 }}
             />
-            <Listings category={category} listings={items} />
+            <ListingsMap listings={listingMaps} />
+            {/* <Listings category={category} listings={items} /> */}
         </View>
     );
 };
