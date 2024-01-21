@@ -4,7 +4,6 @@ import { View } from "react-native";
 import React, { useMemo, useState } from "react";
 import { Stack } from "expo-router";
 import ExporeHeader from "@/components/ExporeHeader";
-import Listings from "@/components/Listings";
 import listings from "@/assets/data/airbnb-listings.json";
 import listingMaps from "@/assets/data/airbnb-listings.geo.json";
 import ListingsMap from "@/components/ListingsMap";
